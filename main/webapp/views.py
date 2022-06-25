@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
@@ -20,6 +21,12 @@ class AnnounceCreateView(CreateView):
     form_class = AnnounceForm
     template_name = "announce/announce_create.html"
     success_url = reverse_lazy("webapp:announce_list")
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class AnnounceUpdateView(UpdateView):
