@@ -1,21 +1,27 @@
 {% extends 'base.html' %}
 {%  block content %}
-{{ announce.author }}
+
     <img src="{{ announce.photo.url }}" alt="">
+    <div>{{ announce.author }}</div>
     <div>{{ announce.title }}</div>
     <div>{{ announce.created_at }}</div>
     <div>{{ announce.price }}</div>
     <div>{{ announce.updated_at }}</div>
     <div>{{ announce.status }}</div>
+        {% if user is announce.author %}
     <div><a href="{% url "webapp:announce_update" announce.pk %}">
         <button>Изменить</button>
     </a></div>
+        {% endif %}
 
-    <div><a href="{% url "webapp:announce_moder_update" announce.pk %}">
-        <button>Изменить статус</button>
-    </a></div>
+
+    {% if perms.webapp.change_announce %}
     <p>
+        <div><a href="{% url "webapp:announce_moder_update" announce.pk %}">
+        <button>Изменить статус</button>
+        </a></div>
         <a href="#"><button>Опублиовать</button></a>
         <a href="#"><button>Отклонить</button></a>
     </p>
+    {% endif %}
 {% endblock content %}

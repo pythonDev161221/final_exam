@@ -139,6 +139,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_URL = "/uploads/"
 MEDIA_ROOT = BASE_DIR.joinpath("uploads")
 
-# LOGIN_REDIRECT_URL = 'webapp:announce_list'
-# LOGOUT_REDIRECT_URL = 'login'
+
 
