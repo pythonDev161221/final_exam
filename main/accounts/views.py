@@ -1,6 +1,9 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
+from django.views.generic import DetailView
+
+from accounts.models import Client
 
 User = get_user_model()
 
@@ -27,3 +30,19 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('webapp:announce_list')
+
+
+class Profile(DetailView):
+    model = Client
+    template_name = "accounts/profile.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super(Profile, self).get_context_data()
+        print(context)
+        print(context.get('client'))
+        print(context.values())
+        return context
