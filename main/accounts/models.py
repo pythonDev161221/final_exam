@@ -6,3 +6,4 @@ from django.db import models
 
 class Client(AbstractUser):
     phone = models.CharField(max_length=24)
+    

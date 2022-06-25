@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 
-from webapp.forms import AnnounceForm
+from webapp.forms import AnnounceForm, AnnounceModerForm
 from webapp.models import Announce
 
 
@@ -40,6 +40,19 @@ class AnnounceDeleteView(DeleteView):
     template_name = "announce/announce_delete.html"
 
 
+class AnnounceNewList(ListView):
+    model = Announce
+    context_object_name = 'announces'
+    template_name = 'announce/moder_list.html'
+    paginate_by = 10
 
-# class AnnounceNewList(ListView):
-#     model = Announce
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(status__exact='new').order_by("-created_at")
+        return queryset
+
+
+class AnnounceModUpdate(UpdateView):
+    model = Announce
+    template_name = "announce/moder_update.html"
+    form_class = AnnounceModerForm
