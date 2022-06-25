@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 # Create your models here.
+from django.urls import reverse_lazy
 
 User = get_user_model()
 
@@ -22,4 +23,10 @@ class Announce(models.Model):
     updated_at = models.DateField(auto_now_add=True)
     published_at = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=48, choices=ANNOUNCE_STATUS, default="new")
+
+    def __str__(self):
+        return f"{self.title} : {self.status}"
+
+    def get_absolute_url(self):
+        return reverse_lazy("webapp:announce_list")
 

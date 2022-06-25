@@ -1,14 +1,21 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 
+User = get_user_model()
 
 # Create your views here.
+
+
 def login_view(request):
     context = {}
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+        try:
+            user = User.objects.get(username=username, password=password)
+        except ObjectDoesNotExist:
+            user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('webapp:announce_list')

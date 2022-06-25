@@ -79,12 +79,7 @@ WSGI_APPLICATION = 'main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -143,4 +138,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = "/uploads/"
 MEDIA_ROOT = BASE_DIR.joinpath("uploads")
+
+# LOGIN_REDIRECT_URL = 'webapp:announce_list'
+# LOGOUT_REDIRECT_URL = 'login'
 

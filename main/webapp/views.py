@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -34,6 +35,10 @@ class AnnounceUpdateView(UpdateView):
     form_class = AnnounceForm
     template_name = "announce/announce_update.html"
     success_url = reverse_lazy("webapp:announce_list")
+    # permission_required = "has_change_announce"
+
+    # def has_permission(self):
+    #     return self.request.user == self.get_object().author
 
 
 class AnnounceDetailView(DetailView):
