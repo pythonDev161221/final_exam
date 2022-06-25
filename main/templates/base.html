@@ -22,18 +22,18 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          {% if not user.is_authenticated %}
+{#          {% if not user.is_authenticated %}#}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'webapp:announce_list' %}">Все</a>
         </li>
-          {% else %}
+{#          {% else %}#}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'webapp:announce_create' %}">Создать</a>
         </li>
           <li class="nav-item">
           <a class="nav-link" href="{% url 'webapp:announce_moder_list' %}">Модерация</a>
         </li>
-          {% endif %}
+{#          {% endif %}#}
       </ul>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             {% if user.is_authenticated %}

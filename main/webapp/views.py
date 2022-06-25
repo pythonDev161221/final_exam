@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -16,8 +16,13 @@ class AnnounceListView(ListView):
     template_name = "announce/announce_list.html"
     context_object_name = 'announces'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(status__exact="published")
+        return queryset
 
-class AnnounceCreateView(CreateView):
+
+class AnnounceCreateView(LoginRequiredMixin ,CreateView):
     model = Announce
     form_class = AnnounceForm
     template_name = "announce/announce_create.html"
@@ -30,15 +35,14 @@ class AnnounceCreateView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class AnnounceUpdateView(UpdateView):
+class AnnounceUpdateView(PermissionRequiredMixin, UpdateView):
     model = Announce
     form_class = AnnounceForm
     template_name = "announce/announce_update.html"
     success_url = reverse_lazy("webapp:announce_list")
-    # permission_required = "has_change_announce"
 
-    # def has_permission(self):
-    #     return self.request.user == self.get_object().author
+    def has_permission(self):
+        return self.request.user == self.get_object().author
 
 
 class AnnounceDetailView(DetailView):
@@ -46,13 +50,16 @@ class AnnounceDetailView(DetailView):
     template_name = 'announce/announce_detail.html'
 
 
-class AnnounceDeleteView(DeleteView):
+class AnnounceDeleteView(PermissionRequiredMixin, DeleteView):
     model = Announce
     success_url = reverse_lazy("webapp:announce_list")
     template_name = "announce/announce_delete.html"
 
+    def has_permission(self):
+        return self.request.user == self.get_object().author
 
-class AnnounceNewList(ListView):
+
+class AnnounceNewList(PermissionRequiredMixin, ListView):
     model = Announce
     context_object_name = 'announces'
     template_name = 'announce/moder_list.html'
@@ -63,8 +70,14 @@ class AnnounceNewList(ListView):
         queryset = queryset.filter(status__exact='new').order_by("-created_at")
         return queryset
 
+    def has_permission(self):
+        return self.request.user.has_perm('webapp.change_announce')
 
-class AnnounceModUpdate(UpdateView):
+
+class AnnounceModUpdate(PermissionRequiredMixin, UpdateView):
     model = Announce
     template_name = "announce/moder_update.html"
     form_class = AnnounceModerForm
+
+    def has_permission(self):
+        return self.request.user.has_perm('webapp.change_announce')
