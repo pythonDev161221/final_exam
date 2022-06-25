@@ -12,7 +12,7 @@ from webapp.models import Announce
 
 class AnnounceListView(ListView):
     model = Announce
-    paginate_by = 10
+    paginate_by = 3
     template_name = "announce/announce_list.html"
     context_object_name = 'announces'
 
@@ -63,7 +63,7 @@ class AnnounceNewList(PermissionRequiredMixin, ListView):
     model = Announce
     context_object_name = 'announces'
     template_name = 'announce/moder_list.html'
-    paginate_by = 10
+    paginate_by = 3
 
     def get_queryset(self):
         queryset = super().get_queryset()
