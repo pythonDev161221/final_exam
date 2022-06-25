@@ -1,3 +1,45 @@
 from django.shortcuts import render
 
 # Create your views here.
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
+
+from webapp.forms import AnnounceForm
+from webapp.models import Announce
+
+
+class AnnounceListView(ListView):
+    model = Announce
+    paginate_by = 10
+    template_name = "announce/announce_list.html"
+    context_object_name = 'announces'
+
+
+class AnnounceCreateView(CreateView):
+    model = Announce
+    form_class = AnnounceForm
+    template_name = "announce/announce_create.html"
+    success_url = reverse_lazy("webapp:announce_list")
+
+
+class AnnounceUpdateView(UpdateView):
+    model = Announce
+    form_class = AnnounceForm
+    template_name = "announce/announce_update.html"
+    success_url = reverse_lazy("webapp:announce_list")
+
+
+class AnnounceDetailView(DetailView):
+    model = Announce
+    template_name = 'announce/announce_detail.html'
+
+
+class AnnounceDeleteView(DeleteView):
+    model = Announce
+    success_url = reverse_lazy("webapp:announce_list")
+    template_name = "announce/announce_delete.html"
+
+
+
+# class AnnounceNewList(ListView):
+#     model = Announce

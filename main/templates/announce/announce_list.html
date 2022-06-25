@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+{% for announce in announces.all %}
+<div class="card" style="width: 18rem;">
+  <img src="{{ announce.photo.url }}" class="card-img-top" alt="{{ announce.photo.url }}">
+  <div class="card-body">
+    <h5 class="card-title">{{ announce.title }}</h5>
+    <p class="card-text">{{ announce.text }}</p>
+    <a href="{% url 'webapp:announce_detail' announce.pk %}" class="btn btn-primary">Открыть</a>
+  </div>
+</div>
+    {% endfor %}
+</div>
+
+{% endblock %}
